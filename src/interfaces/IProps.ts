@@ -5,3 +5,8 @@ export interface IBoardProps {
   squares: Array<SquareValue>;
   dispatch: (action: IAction) => void;
 }
+
+export interface ISquareProps {
+  value: SquareValue;
+  onClick: () => void;
+}
