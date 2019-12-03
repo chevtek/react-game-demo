@@ -1,49 +1,23 @@
-import React, { useState, useReducer } from "react";
+import React from "react";
 import "./App.css";
 import { SquareValue, ActionType } from "../enums";
-import { IGameState } from "../interfaces";
-import calculateWinner from "../services/calculate-winner";
-import stateReducer from "../services/state-reducer";
+import calculateWinner from "../utilities/calculate-winner";
+import useGameState from "../hooks/use-game-state";
 import Board from "../components/Board";
-
-const initialGameState: IGameState = {
-  history: [
-    { squares: Array(9).fill(SquareValue.Empty) }
-  ],
-  stepNumber: 0,
-  xIsNext: true
-};
 
 const App: React.FC = () => {
 
-  const [gameState, dispatch] = useReducer(stateReducer, initialGameState);
-
-  function jumpTo (step: number):void {
-    dispatch({
-      type: ActionType.TIME_TRAVEL,
-      data: step
-    });
-  }
-
+  const [gameState, dispatch] = useGameState();
   const { history, stepNumber, xIsNext } = gameState;
   const current = history[stepNumber];
+  const nextPlayer = xIsNext ? SquareValue.X : SquareValue.O;
   const winner = calculateWinner(current.squares);
+  const status = winner ? `Winner: ${winner}` : `Next player: ${nextPlayer}`;
 
-  const moves = history.map((step, move) => {
-    const text = move ? `Go to move #${move}` : "Go to game start";
-    return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{text}</button>
-      </li>
-    );
+  const moveClick = (move: number) => dispatch({
+    type: ActionType.TIME_TRAVEL,
+    data: move
   });
-
-  let status;
-  if (winner) {
-    status = `Winner: ${winner}`;
-  } else {
-    status = `Next player: ${xIsNext ? SquareValue.X : SquareValue.O}`;
-  }
 
   return (
     <div className="game">
@@ -52,7 +26,15 @@ const App: React.FC = () => {
       </div>
       <div className="game-info">
         <div>{status}</div>
-        <ol>{moves}</ol>
+        <ol>
+          {history.map((step, move) => (
+            <li key={move}>
+              <button onClick={() => moveClick(move)}>
+                {move ? `Go to move #${move}` : "Go to game start"}
+              </button>
+            </li>
+          ))}
+        </ol>
       </div>
     </div>
   );

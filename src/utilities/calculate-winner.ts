@@ -17,7 +17,7 @@ function calculateWinner(squares: Array<SquareValue>): SquareValue | false {
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
       return squares[a];
     }
-  };
+  }
   return false;
 }
 
