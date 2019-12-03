@@ -1,2 +1,2 @@
-export * from "./SquareValue";
-export * from "./ActionType";
+export * from "./square-value.enum";
+export * from "./action-type.enum";

@@ -1,17 +1,20 @@
 import React from "react";
-import { IBoardProps, IAction } from "../interfaces";
+import { IBoardProps } from "../interfaces";
 import Square from "../components/Square";
 import { ActionType } from "../enums";
+import useStateContext from "../hooks/use-state-context.hook";
 
 const Board: React.FC<IBoardProps> = (props) => {
 
+  const { dispatch } = useStateContext();
+
   const renderSquare = (index: number) => {
-    const setSquare: IAction = {
+    const setSquareValue = () => dispatch({
       type: ActionType.SET_SQUARE,
       data: index
-    };
+    });
     return (
-      <Square value={props.squares[index]} onClick={() => props.dispatch(setSquare)} />
+      <Square value={props.squares[index]} onClick={setSquareValue} />
     )
   };
 
