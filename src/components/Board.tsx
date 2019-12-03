@@ -1,10 +1,10 @@
 import React from "react";
 import { IBoardProps } from "../interfaces";
-import Square from "../components/Square";
+import { Square } from "../components/Square";
 import { ActionType } from "../enums";
 import useStateContext from "../hooks/use-state-context.hook";
 
-const Board: React.FC<IBoardProps> = (props) => {
+export const Board = (props: IBoardProps) => {
 
   const { dispatch } = useStateContext();
 
@@ -39,5 +39,3 @@ const Board: React.FC<IBoardProps> = (props) => {
   );
 
 };
-
-export default Board;

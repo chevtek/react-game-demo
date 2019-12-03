@@ -4,10 +4,9 @@ import { SquareValue, ActionType } from "../enums";
 import calculateWinner from "../utilities/calculate-winner";
 import useStateReducer from "../hooks/use-state-reducer.hook";
 import { StateProvider } from "../hooks/use-state-context.hook";
-import Board from "../components/Board";
+import { Board } from "../components/Board";
 
-const App: React.FC = () => {
-
+export const App = () => {
   const [gameState, dispatch] = useStateReducer();
   const { history, stepNumber, xIsNext } = gameState;
   const current = history[stepNumber];
@@ -15,10 +14,11 @@ const App: React.FC = () => {
   const winner = calculateWinner(current.squares);
   const status = winner ? `Winner: ${winner}` : `Next player: ${nextPlayer}`;
 
-  const moveClick = (move: number) => dispatch({
-    type: ActionType.TIME_TRAVEL,
-    data: move
-  });
+  const moveClick = (move: number) =>
+    dispatch({
+      type: ActionType.TIME_TRAVEL,
+      data: move
+    });
 
   return (
     <StateProvider value={{ gameState, dispatch }}>
@@ -41,7 +41,4 @@ const App: React.FC = () => {
       </div>
     </StateProvider>
   );
-
-}
-
-export default App;
+};
